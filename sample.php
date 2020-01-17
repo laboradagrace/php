@@ -34,7 +34,6 @@
 						$medarr = [];
 						
 						$link = mysqli_connect("localhost", "root", "", "pntraining");
-						
 						// Check connection
 						if($link === false){
 							die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -47,20 +46,9 @@
 							if(mysqli_num_rows($result) > 0){
 								while($row = mysqli_fetch_array($result)){
 									$id = $row["id"];
-									echo "<tr>";
-									echo "<td>". $id. "</td>";
-									array_push($medarr, $id = $row["id"]);
-									echo "<td>". $brandname = $row["Brandname"]. "</td>";
-									echo "<td>". $genericname = $row["Genericname"]. "</td>";
-									echo "<td>". $type = $row["type"]. "</td>";
-									echo "<td>". $price = $row["price"]. "</td>";
-									echo "<td>". $quantity = $row["quantity"]. "</td>";
-							
-									echo '<td>
-									<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-									' ;
-									echo"<a href='delMed.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
-									echo "</tr>";
+									$med = [$id,$row["Brandname"],$row["Genericname"],$row["type"],$row["price"],$row["quantity"]];
+									array_push($medarr, $med);	
+									
 								}
 								
 							} else{
@@ -70,6 +58,20 @@
 							echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
 						}
 						mysqli_close($link);
+						foreach($medarr as $m){
+							echo "<tr>";
+							echo "<td>". $m[0]. "</td>";
+							echo "<td>". $m[1]. "</td>";
+							echo "<td>". $m[2]. "</td>";
+							echo "<td>". $m[3]. "</td>";
+							echo "<td>". $m[4]. "</td>";
+							echo "<td>". $m[5]. "</td>";
+							echo '<td>
+							<a href="index.php?EditId= '.$m[0].'" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+							' ;
+							echo"<a href='index.php?id= ".$m[0]."'  title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+							echo "</tr>";
+						}	
 					?>
                     
                 </tbody>
@@ -78,10 +80,11 @@
         </div>
     </div>
 	<!-- add Modal HTML -->
+
 	<div id="addMedModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action ="addMed.php" method= "post">
+				<form action ="index.php" method= "post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Add Medicine</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -89,23 +92,23 @@
 					<div class="modal-body">					
 						<div class="form-group">
 							<label>Brand name</label>
-							<input type="text" class="form-control" name = "brandname" required>
+							<input type="text" class="form-control" name = "medForm[brandname]" required>
 						</div>
 						<div class="form-group">
 							<label>Generic name</label>
-							<input type="text" class="form-control" name = "genericname" required>
+							<input type="text" class="form-control" name = "medForm[genericname]" required>
 						</div>
 						<div class="form-group">
 							<label>type</label>
-							<textarea class="form-control" name = "type" required></textarea>
+							<textarea class="form-control" name = "medForm[type]" required></textarea>
 						</div>
 						<div class="form-group">
 							<label>price</label>
-							<input type="text" class="form-control" name = "price" required>
+							<input type="text" class="form-control" name = "medForm[price]" required>
                         </div>
                         <div class="form-group">
 							<label>quantity</label>
-							<input type="text" class="form-control" name = "quantity" required>
+							<input type="text" class="form-control" name = "medForm[quantity]" required>
 						</div>					
 					</div>
 					<div class="modal-footer">
@@ -120,58 +123,42 @@
 	<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form action= "index.php" method="post">
 					<div class="modal-header">						
-						<h4 class="modal-title">Edit Employee</h4>
+						<h4 class="modal-title">Edit Medicine</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
-							<label>Name</label>
-							<input type="text" class="form-control" required>
+							<label>Brand name</label>
+							<input type="text" class="form-control" name = "Form[brandname]" required>
 						</div>
 						<div class="form-group">
-							<label>Email</label>
-							<input type="email" class="form-control" required>
+							<label>Generic name</label>
+							<input type="text" class="form-control" name = "Form[genericname]" required>
 						</div>
 						<div class="form-group">
-							<label>Address</label>
-							<textarea class="form-control" required></textarea>
+							<label>Type</label>
+							<textarea class="form-control" name= Form[type] required></textarea>
 						</div>
 						<div class="form-group">
-							<label>Phone</label>
-							<input type="text" class="form-control" required>
+							<label>Price</label>
+							<input type="text" class="form-control" name= Form[price] required>
+						</div>
+						<div class="form-group">
+							<label>Quantity</label>
+							<input type="text" class="form-control" name= Form[quantity] required>
 						</div>					
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" class="btn btn-info" value="Save">
+						<input type="submit" name ="editMed" class="btn btn-info" value="Save">
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-	<!-- Delete Modal HTML -->
-	<div id="deleteEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action = "delMed.php" method = "post">
-					<div class="modal-header">						
-						<h4 class="modal-title">Delete Medicine</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<p>Are you sure you want to delete these Records?</p>
-						<p class="text-warning"><small>This action cannot be undone.</small></p>
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" name = "submit" class="btn btn-danger" value="Delete" >
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+
 <form action = "logout.php" method = "post">
 	<button type="submit" name= "logout" class="btn">Logout</button>
 </form>
