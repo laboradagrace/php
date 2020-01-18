@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="container">
+		<br><br><br>
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
@@ -32,7 +33,6 @@
 					<?php
 						include ("medicine.php");
 						$medarr = [];
-						
 						$link = mysqli_connect("localhost", "root", "", "pntraining");
 						// Check connection
 						if($link === false){
@@ -59,19 +59,22 @@
 						}
 						mysqli_close($link);
 						foreach($medarr as $m){
+							
 							echo "<tr>";
-							echo "<td>". $m[0]. "</td>";
-							echo "<td>". $m[1]. "</td>";
-							echo "<td>". $m[2]. "</td>";
-							echo "<td>". $m[3]. "</td>";
-							echo "<td>". $m[4]. "</td>";
-							echo "<td>". $m[5]. "</td>";
-							echo '<td>
-							<a href="index.php?EditId= '.$m[0].'" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							' ;
+							//echo '<form action ="index.php" method= "post">';
+							echo "<td name = 'Form[id] = ".$m[0]."'>". $m[0]. "</td>";
+							echo '<td> <input type="text"  name = "Form[brandname]" placeholder ="'.$m[1].'" > </td>';
+							echo '<td><input type="text"  name = "Form[genericname]" placeholder ="'.$m[2].'"></td>';
+							echo '<td><input type="text"  name = "Form[type]" placeholder ="'.$m[3].'" ></td>';
+							echo '<td><input type="text"  name = "Form[price]" placeholder ="'.$m[4].'" ></td>';
+							echo '<td><input type="text"  name = "Form[quantity]" placeholder ="'.$m[5].'" ></td>';
+							echo '<td>';
+							echo '<a href ="index.php?idE= '.$m[0].'" class="edit" data-toggle="modal" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>' ;
 							echo"<a href='index.php?id= ".$m[0]."'  title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+							//echo '</form>';
 							echo "</tr>";
-						}	
+						}
+				
 					?>
                     
                 </tbody>
@@ -119,45 +122,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Edit Modal HTML -->
-	<div id="editEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action= "index.php" method="post">
-					<div class="modal-header">						
-						<h4 class="modal-title">Edit Medicine</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<div class="form-group">
-							<label>Brand name</label>
-							<input type="text" class="form-control" name = "Form[brandname]" required>
-						</div>
-						<div class="form-group">
-							<label>Generic name</label>
-							<input type="text" class="form-control" name = "Form[genericname]" required>
-						</div>
-						<div class="form-group">
-							<label>Type</label>
-							<textarea class="form-control" name= Form[type] required></textarea>
-						</div>
-						<div class="form-group">
-							<label>Price</label>
-							<input type="text" class="form-control" name= Form[price] required>
-						</div>
-						<div class="form-group">
-							<label>Quantity</label>
-							<input type="text" class="form-control" name= Form[quantity] required>
-						</div>					
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" name ="editMed" class="btn btn-info" value="Save">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+
 
 <form action = "logout.php" method = "post">
 	<button type="submit" name= "logout" class="btn">Logout</button>
