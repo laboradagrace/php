@@ -1,5 +1,12 @@
 <?php
     class crudMed{
+        // public function __construct($brandname,$genericname,$type,$price, $qty){
+        //     $this->$brandname = $brandname;
+        //     $this->$genericname = $genericname;
+        //     $this->$type = $type;
+        //     $this->price = $price;
+        //     $this->qty = $qty;
+        // }
         //create new med and save to db
         public function createMed($brandname,$genericname,$type ,$price,$quantity){
             $connection = mysqli_connect("localhost", "root", "", "pntraining"); // Establishing Connection with Server
@@ -7,7 +14,7 @@
                 $sql = "INSERT INTO medicines (Brandname, Genericname,type,price,quantity) 
                         VALUES ('$brandname', '$genericname', '$type','$price','$quantity')";
                 $query = mysqli_query($connection, $sql);
-                echo "<script> location.href='sample.php'; </script>";
+                echo "<script> location.href='Medtable.php'; </script>";
                 exit;
             }else{
                 echo "<p>Insertion Failed <br/> Some Fields are Blank.</p>";
@@ -27,6 +34,7 @@
             type = '$type',price ='$price',quantity ='$quantity' WHERE id = '$id'";
             $query = mysqli_query($connection, $sql);
             mysqli_close($connection); 
+            //echo "<script> location.href='Medtable.php'; </script>";
         }
     }
 
